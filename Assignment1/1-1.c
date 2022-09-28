@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int combine(int x, int y){
+unsigned int combine(int x, int y){
 	y = y & 0xff; //Masking the int y and retriving the last byte
 	x = x & 0xffffff00; //Masking the int x and retriving the signifact bytes 1-3
 	return x | y;
