@@ -10,7 +10,6 @@ unsigned int replace(unsigned int x, int i, unsigned char b){
 int main(){
 	printf("0x%x == 0xAB345678\n", replace(0x12345678, 3, 0xAB));
 	printf("0x%x == 0x123456AB\n", replace(0x12345678, 0, 0xAB));
-
 	return 0;
 }
 
