@@ -9,4 +9,5 @@ unsigned int combine(int x, int y){
 int main(){
 	printf("0x%x == 0x12345600\n", combine(0x12345678, 0xABCDEF00));
 	printf("0x%x == 0xABCDEF78\n", combine(0xABCDEF00, 0x12345678));
+	return 0;
 }
