@@ -87,5 +87,4 @@ int main(){
 	sortIntArray(head);
 	printArray(head);
 	freeIntArray(head);
-
 }
