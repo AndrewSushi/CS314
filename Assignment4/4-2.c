@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 long fact(long x){  // %rbx is the stack pointer
-					// pushq %rbx pushes the value onto the stack
+					// pushq %rbx pushes the value onto the stack as well as the memory address
 					// movq %rdi, %rbx changes the value of %rbx to the value of %rdi which is passed in as x
 	if(x <= 1){ // %rdi is x
 		return 1;
