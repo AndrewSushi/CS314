@@ -1,0 +1,75 @@
+# Execution begins at address 0 
+    .pos 0
+    irmovq stack, %rsp      # Set up stack pointer
+    call main       # Execute main program
+    halt            # Terminate program 
+
+# Array of 10 elements
+    .align 8
+array:
+    .quad 0x000000000008
+    .quad 0x00000000000A
+    .quad 0x000000000007
+    .quad 0x000000000009
+    .quad 0x000000000006
+    .quad 0x000000000002
+    .quad 0x000000000005
+    .quad 0x000000000003
+    .quad 0x000000000001
+    .quad 0x000000000004
+    
+swap:
+    mrmovq (%r9), %rdx  # Moves contents pointed at by r9 into rdx
+    mrmovq (%r8), %rbx  # Same for r8, rbx
+    rmmovq %rbx, (%r9)  # Moves contents of rbx into address pointed at by r9
+    rmmovq %rdx, (%r8)  # Same for rdx, 8
+    irmovq $0, %rbp     # Change to conditional to 0 since there was a swap
+    jmp L3              # Jump to the pointer increment
+    
+L3:
+    iaddq $8, %r8       # Increment pointer
+    iaddq $8, %r9       # Increment pointer
+    jmp innerLoop       # Go back to innerLoop
+
+main:   
+    irmovq array, %rdi  # Puts array[0] in rdi
+    irmovq $10, %rsi    # Puts 10 in rsi
+    call sort           # Calls sort(array, 10)
+    ret
+
+sort:
+    jmp loop
+
+loop:
+    rrmovq %rdi, %r8    # Pointer to a[0]
+    rrmovq %r8, %r9     # Pointer to a[0]
+    iaddq $8, %r9       # Increment pointer to a[1]
+    andq %rsi, %rsi     # Set condition code
+    je return           # GOTO return
+    irmovq $10, %r10    # Set the innerLoop condition to N - 1 = 9
+    isubq $1, %rsi      # Decrement length
+    irmovq $1, %rbp     # Checker to see if the there are no swaps in the current pass
+    jmp innerLoop
+    
+conditional:
+    isubq $1, %rbp      # Subtract 1, if 0, there were no swaps
+    je return           # Return since no swaps
+    jmp loop            # There were swaps, so go back to the outer loop
+    
+innerLoop:
+    isubq $1, %r10      # Decrement the conditional check
+    andq %r10, %r10     # Set condition code
+    je conditional      # GOTO L3
+    mrmovq (%r8), %r11  # Create temp variable to check so %r8 doesn't change
+    mrmovq (%r9), %r12  # Create temp variable to check so %r8 doesn't change
+    subq %r12, %r11     # Conditional check for swap
+    jl swap             # Swap
+    jmp L3              # Increment pointers
+    jmp innerLoop       # Jump to Loop
+    
+return:
+    ret
+
+# Stack starts here and grows to lower addresses
+    .pos 0x200
+stack:    
