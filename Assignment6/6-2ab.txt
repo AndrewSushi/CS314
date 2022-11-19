@@ -1,0 +1,5 @@
+2a:
+Adds %xmm0, %xmm1, and addq $1, %rdx operations cannot be parallelized because the add operations require the result from the previous computations to run.
+
+2b:
+The line adds %zmm0 %xmm1 requires the result from %xmm0, which depends on movss which then updates the value of %xmm0
